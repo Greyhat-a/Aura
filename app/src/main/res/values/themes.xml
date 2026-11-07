@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.Aura" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#05070C</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
