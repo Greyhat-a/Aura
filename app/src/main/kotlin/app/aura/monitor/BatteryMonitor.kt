@@ -119,18 +119,13 @@ class BatteryMonitor(private val ctx: Context) {
 
         // ---- API 34+ battery properties ----
         var cycles: Reading<Int> = Reading.Unavailable("Not reported by this device")
-        var soh: Reading<Int> = Reading.Unavailable("Not reported by this device")
-        var policy: Reading<Int> = Reading.Unavailable("Not reported by this device")
+        val soh: Reading<Int> = Reading.Unavailable("Not exposed by public Android APIs")
+        val policy: Reading<Int> = Reading.Unavailable("Not exposed by public Android APIs")
         if (Build.VERSION.SDK_INT >= 34) {
             val c = i?.getIntExtra(BatteryManager.EXTRA_CYCLE_COUNT, -1) ?: -1
             if (c >= 0) cycles = Reading.Value(c, "ACTION_BATTERY_CHANGED / EXTRA_CYCLE_COUNT")
-            val s = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_STATE_OF_HEALTH)
-            if (s in 1..100) soh = Reading.Value(s, "BATTERY_PROPERTY_STATE_OF_HEALTH")
-            val p = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGING_POLICY)
-            if (p != Int.MIN_VALUE && p > 0) policy = Reading.Value(p, "BATTERY_PROPERTY_CHARGING_POLICY")
         } else {
             cycles = Reading.Unavailable("Requires Android 14+")
-            soh = Reading.Unavailable("Requires Android 14+")
         }
 
         // ---- ETAs: system estimate first, own estimate second ----
